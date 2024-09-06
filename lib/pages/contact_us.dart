@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ContactUs extends StatelessWidget {
-  const ContactUs({super.key});
+  String name;
+   ContactUs({super.key,required this.name});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: Text("ContactUs"),
+        child: Text("ContactUs $name"),
       ),
     );
   }

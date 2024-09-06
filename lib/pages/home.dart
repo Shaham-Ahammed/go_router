@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_router_sample/routes/route_constants.dart';
+
 class Home extends StatelessWidget {
   const Home({super.key});
 
@@ -13,12 +14,14 @@ class Home extends StatelessWidget {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  GoRouter.of(context).pushNamed(MyAppRoutesConstants.profile);
+                  context.pushNamed(MyAppRoutesConstants.profile);
+                  //   GoRouter.of(context).go('/profile');
                 },
                 child: const Text("Profile")),
             ElevatedButton(
                 onPressed: () {
-                  GoRouter.of(context).pushNamed(MyAppRoutesConstants.contact);
+                  GoRouter.of(context).pushNamed(MyAppRoutesConstants.contact,
+                      pathParameters: {"name": "shaham"});
                 },
                 child: const Text("Contact Us")),
             ElevatedButton(

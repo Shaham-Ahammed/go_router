@@ -7,34 +7,64 @@ import 'package:go_router_sample/pages/home.dart';
 import 'package:go_router_sample/pages/profile.dart';
 import 'package:go_router_sample/routes/route_constants.dart';
 
+const isLoggedIn = false;
+
 class MyAppRoutes {
+  
   GoRouter router = GoRouter(
+  
+  // redirect: (context, state) {
+  //   if (state.fullPath=="/" && !isLoggedIn) {
+  //     return "/profile";
+  //   }else if(state.fullPath=="/" && !isLoggedIn){
+  //     return "/";
+  //   }
+  //   return "/about";
+  // },
+  
       debugLogDiagnostics: true,
       routes: [
         GoRoute(
-            path: '/',
-            name: MyAppRoutesConstants.home,
-            pageBuilder: (context, state) {
-              return MaterialPage(child: Home());
-            }),
+          path: '/',
+          name: MyAppRoutesConstants.home,
+          builder: (context, state) {
+            return Home();
+          },
+        ),
         GoRoute(
-            path: '/profile',
-            name: MyAppRoutesConstants.profile,
-            pageBuilder: (context, state) {
-              return MaterialPage(child: Profile());
-            }),
+          path: '/profile',
+          name: MyAppRoutesConstants.profile,
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: Profile(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                    opacity:
+                        CurveTween(curve: Curves.easeIn).animate(animation),
+                        child: child,
+                        );
+              },
+            );
+          },
+        ),
         GoRoute(
-            path: '/contact',
-            name: MyAppRoutesConstants.contact,
-            pageBuilder: (context, state) {
-              return MaterialPage(child: ContactUs());
-            }),
+          path: '/contact/:name',
+          name: MyAppRoutesConstants.contact,
+          builder: (context, state) {
+            return ContactUs(
+              name: state.pathParameters['name']!,
+            );
+          },
+        ),
         GoRoute(
-            path: '/about',
-            name: MyAppRoutesConstants.about,
-            pageBuilder: (context, state) {
-              return MaterialPage(child: AboutUs());
-            }),
+          path: '/about',
+          name: MyAppRoutesConstants.about,
+          builder: (context, state) {
+            return AboutUs();
+          },
+        ),
       ],
       errorPageBuilder: (context, state) => MaterialPage(child: ErrorPage()));
 }
